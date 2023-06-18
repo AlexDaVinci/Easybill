@@ -165,178 +165,183 @@ function Usuarios() {
 
   const { columns, rows } = data;
   return (
-    <DashboardLayout>
-      <DashboardNavbar />
-      <MDBox pt={6} pb={3}>
-        <Grid container spacing={6}>
-          <Grid item xs={12}>
-            <Card>
-              <MDBox
-                mx={2}
-                mt={-3}
-                py={3}
-                px={2}
-                variant="gradient"
-                bgColor="info"
-                borderRadius="lg"
-                coloredShadow="info"
-                display="flex"
-                justifyContent="space-between"
-                alignItems="center"
-              >
-                <MDTypography variant="h6" color="white">
-                  Tabla de Usuarios
-                </MDTypography>
-                <MDButton variant="gradient" color="dark" onClick={handleOpen}>
-                  <Icon sx={{ fontWeight: "bold" }}>add</Icon>
-                  Añadir nuevo usuario
-                </MDButton>
-                <MuiModal
-                  open={open}
-                  onClose={handleClose}
-                  aria-labelledby="modal-modal-title"
-                  aria-describedby="modal-modal-description"
+    <>
+      <DashboardLayout>
+        <DashboardNavbar />
+        <MDBox pt={6} pb={3}>
+          <Grid container spacing={6}>
+            <Grid item xs={12}>
+              <Card>
+                <MDBox
+                  mx={2}
+                  mt={-3}
+                  py={3}
+                  px={2}
+                  variant="gradient"
+                  bgColor="info"
+                  borderRadius="lg"
+                  coloredShadow="info"
+                  display="flex"
+                  justifyContent="space-between"
+                  alignItems="center"
                 >
-                  <Box
-                    sx={{
-                      position: "absolute",
-                      top: "50%",
-                      left: "50%",
-                      transform: "translate(-50%, -50%)",
-                      width: 400,
-                      bgcolor: "background.paper",
-                      border: "2px solid #fffff",
-                      borderRadius: 10,
-                      p: 4,
-                    }}
-                  >
-                    <Typography id="modal-modal-title" variant="h6" component="h2">
-                      <MDBox
-                        variant="gradient"
-                        bgColor="info"
-                        borderRadius="lg"
-                        coloredShadow="success"
-                        mx={2}
-                        mt={-3}
-                        p={3}
-                        mb={1}
-                        textAlign="center"
+                  <MDTypography variant="h6" color="white">
+                    Tabla de Usuarios
+                  </MDTypography>
+                  <MDButton variant="gradient" color="dark" onClick={handleOpen}>
+                    <Icon sx={{ fontWeight: "bold" }}>add</Icon>
+                    Añadir nuevo usuario
+                  </MDButton>
+                </MDBox>
+                <MDBox pt={3}>
+                  <DataTable
+                    table={{ columns, rows }}
+                    isSorted={false}
+                    entriesPerPage={false}
+                    showTotalEntries={false}
+                    noEndBorder
+                  />
+                </MDBox>
+              </Card>
+            </Grid>
+          </Grid>
+        </MDBox>
+      </DashboardLayout>
+
+      {/* MODAL AÑADIR */}
+
+      <MuiModal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 400,
+            bgcolor: "background.paper",
+            border: "2px solid #fffff",
+            borderRadius: 10,
+            p: 4,
+          }}
+        >
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            <MDBox
+              variant="gradient"
+              bgColor="info"
+              borderRadius="lg"
+              coloredShadow="success"
+              mx={2}
+              mt={-3}
+              p={3}
+              mb={1}
+              textAlign="center"
+            >
+              <MDTypography variant="h4" fontWeight="medium" color="white" mt={1}>
+                <img src={logo} alt="Logo" style={{ width: "100px", height: "80px" }} />
+              </MDTypography>
+              <MDTypography variant="h4" fontWeight="medium" color="white" mt={1}>
+                EasyBill
+              </MDTypography>
+              <MDTypography display="block" variant="button" color="white" my={1}>
+                Ingresa tu Usuario
+              </MDTypography>
+            </MDBox>
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            <Card>
+              <MDBox pt={4} pb={3} px={3}>
+                <MDBox component="form" role="form">
+                  <MDBox mb={2}>
+                    <MDInput
+                      type="text"
+                      label="Nombre"
+                      variant="standard"
+                      fullWidth
+                      value={username}
+                      onChange={(event) => setUsername(event.target.value)}
+                    />
+                  </MDBox>
+                  <MDBox mb={2}>
+                    <MDInput
+                      type="password"
+                      label="Password"
+                      variant="standard"
+                      fullWidth
+                      value={password}
+                      onChange={(event) => setPassword(event.target.value)}
+                    />
+                  </MDBox>
+                  <MDBox mb={2}>
+                    <MDInput
+                      type="text"
+                      label="Email"
+                      variant="standard"
+                      fullWidth
+                      value={email}
+                      onChange={(event) => setEmail(event.target.value)}
+                    />
+                  </MDBox>
+                  <MDBox mb={2}>
+                    <FormControl variant="standard" fullWidth>
+                      <InputLabel id="tipo-usuario-label">Tipo de Usuario</InputLabel>
+                      <Select
+                        labelId="tipo-usuario-label"
+                        id="tipo-usuario-select"
+                        value={tipoUsuario}
+                        onChange={(event) => setTipoUsuario(event.target.value)}
                       >
-                        <MDTypography variant="h4" fontWeight="medium" color="white" mt={1}>
-                          <img src={logo} alt="Logo" style={{ width: "100px", height: "80px" }} />
-                        </MDTypography>
-                        <MDTypography variant="h4" fontWeight="medium" color="white" mt={1}>
-                          EasyBill
-                        </MDTypography>
-                        <MDTypography display="block" variant="button" color="white" my={1}>
-                          Ingresa tu Usuario
-                        </MDTypography>
-                      </MDBox>
-                    </Typography>
-                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                      <Card>
-                        <MDBox pt={4} pb={3} px={3}>
-                          <MDBox component="form" role="form">
-                            <MDBox mb={2}>
-                              <MDInput
-                                type="text"
-                                label="Nombre"
-                                variant="standard"
-                                fullWidth
-                                value={username}
-                                onChange={(event) => setUsername(event.target.value)}
-                              />
-                            </MDBox>
-                            <MDBox mb={2}>
-                              <MDInput
-                                type="password"
-                                label="Password"
-                                variant="standard"
-                                fullWidth
-                                value={password}
-                                onChange={(event) => setPassword(event.target.value)}
-                              />
-                            </MDBox>
-                            <MDBox mb={2}>
-                              <MDInput
-                                type="text"
-                                label="Email"
-                                variant="standard"
-                                fullWidth
-                                value={email}
-                                onChange={(event) => setEmail(event.target.value)}
-                              />
-                            </MDBox>
-                            <MDBox mb={2}>
-                              <FormControl variant="standard" fullWidth>
-                                <InputLabel id="tipo-usuario-label">Tipo de Usuario</InputLabel>
-                                <Select
-                                  labelId="tipo-usuario-label"
-                                  id="tipo-usuario-select"
-                                  value={tipoUsuario}
-                                  onChange={(event) => setTipoUsuario(event.target.value)}
-                                >
-                                  <MenuItem value={"Tipo1"}>Tipo 1</MenuItem>
-                                  <MenuItem value={"Tipo2"}>Tipo 2</MenuItem>
-                                </Select>
-                              </FormControl>
-                            </MDBox>
-                            <MDBox mb={2}>
-                              <MDInput
-                                type="file"
-                                label="Imagen"
-                                variant="standard"
-                                fullWidth
-                                onChange={(event) => setImage(event.target.files[0])}
-                              />
-                            </MDBox>
-                            <MDBox
-                              mt={4}
-                              mb={1}
-                              display="flex"
-                              alignItems="center"
-                              justifyContent="space-between"
-                            >
-                              <MDButton
-                                type="submit"
-                                variant="gradient"
-                                color="info"
-                                sx={{ flexGrow: 1, mr: 1 }} // Aplica un marginRight para un espacio entre botones
-                                onClick={handleClose}
-                              >
-                                Cerrar
-                              </MDButton>
-                              <MDButton
-                                type="submit"
-                                variant="gradient"
-                                color="info"
-                                sx={{ flexGrow: 1, ml: 1 }} // Aplica un marginLeft para un espacio entre botones
-                                onClick={handleAddUser}
-                              >
-                                Añadir usuario
-                              </MDButton>
-                            </MDBox>
-                          </MDBox>
-                        </MDBox>
-                      </Card>
-                    </Typography>
-                  </Box>
-                </MuiModal>
-              </MDBox>
-              <MDBox pt={3}>
-                <DataTable
-                  table={{ columns, rows }}
-                  isSorted={false}
-                  entriesPerPage={false}
-                  showTotalEntries={false}
-                  noEndBorder
-                />
+                        <MenuItem value={"Tipo1"}>Tipo 1</MenuItem>
+                        <MenuItem value={"Tipo2"}>Tipo 2</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </MDBox>
+                  <MDBox mb={2}>
+                    <MDInput
+                      type="file"
+                      label="Imagen"
+                      variant="standard"
+                      fullWidth
+                      onChange={(event) => setImage(event.target.files[0])}
+                    />
+                  </MDBox>
+                  <MDBox
+                    mt={4}
+                    mb={1}
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="space-between"
+                  >
+                    <MDButton
+                      type="submit"
+                      variant="gradient"
+                      color="info"
+                      sx={{ flexGrow: 1, mr: 1 }} // Aplica un marginRight para un espacio entre botones
+                      onClick={handleClose}
+                    >
+                      Cerrar
+                    </MDButton>
+                    <MDButton
+                      type="submit"
+                      variant="gradient"
+                      color="info"
+                      sx={{ flexGrow: 1, ml: 1 }} // Aplica un marginLeft para un espacio entre botones
+                      onClick={handleAddUser}
+                    >
+                      Añadir usuario
+                    </MDButton>
+                  </MDBox>
+                </MDBox>
               </MDBox>
             </Card>
-          </Grid>
-        </Grid>
-      </MDBox>
-    </DashboardLayout>
+          </Typography>
+        </Box>
+      </MuiModal>
+    </>
   );
 }
 
