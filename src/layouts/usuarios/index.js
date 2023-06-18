@@ -1,14 +1,16 @@
+/* eslint-disable react/prop-types */
+
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
-
-// Material Dashboard 2 React components
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import React, { useState, useEffect } from "react";
 import Icon from "@mui/material/Icon";
 import axios from "axios";
-
-// Material Dashboard 2 React example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
@@ -18,41 +20,65 @@ import MDInput from "components/MDInput";
 import logo from "assets/images/logowh.png";
 import { Modal as MuiModal, Box, Typography, Button } from "@mui/material";
 
-// Data
-import authorsTableData from "layouts/usuarios/data/authorsTableData";
-
 function Usuarios() {
   const [data, setData] = useState({ columns: [], rows: [] });
   const [open, setOpen] = React.useState(false);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [image, setImage] = useState(null);
+  const [tipoUsuario, setTipoUsuario] = useState("");
+  const [email, setEmail] = useState("");
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const fetchUsers = () => {
+    fetch("http://165.22.189.59:8001/api/allusers")
+      .then((response) => response.json())
+      .then((data) => {
+        const rows = data.map((user) => ({
+          id: user.id,
+          name: user.name,
+          tipo_usuario: user.tipo_usuario,
+          ruta_imagen_usuario: user.ruta_imagen_usuario,
+          email: user.email,
+          email_verified_at: user.email_verified_at,
+          created_at: user.created_at,
+          update_at: user.update_at,
+        }));
+
+        setData((prevData) => ({
+          ...prevData,
+          rows: rows,
+        }));
+      })
+      .catch((error) => console.error(error));
+  };
+
   const handleAddUser = (event) => {
     event.preventDefault();
 
-    // Esto asume que tienes los valores del usuario en el estado
-    const { username, password, image } = this.state;
-
-    // Crear un objeto FormData y añadir los datos
     const formData = new FormData();
-    formData.append("username", username);
+    formData.append("name", username);
     formData.append("password", password);
+    formData.append("password_confirmation", password);
+    formData.append("tipo_usuario", tipoUsuario);
+    formData.append("email", email);
 
-    // Asegúrate de que tienes un archivo de imagen para añadir
     if (image) {
-      formData.append("image", image, image.name);
+      formData.append("file", image, image.name);
     }
 
-    // Ahora envía los datos usando axios
     axios
       .post("http://165.22.189.59:8001/api/register", formData, {
         headers: {
-          "Content-Type": "multipart/form-data", // Importante para enviar archivos
+          "Content-Type": "multipart/form-data",
         },
       })
       .then((response) => {
         console.log(response);
+        fetchUsers(); // Obtener la lista actualizada de usuarios
+        handleClose(); // Cerrar el modal después de añadir el usuario
       })
       .catch((error) => {
         console.error(error);
@@ -68,13 +94,18 @@ function Usuarios() {
             Header: "Imagen",
             accessor: "image",
             align: "left",
-            Cell: () => (
-              <img
-                src="http://165.22.189.59:8001/storage/June2023/1686608103.png"
-                alt="user"
-                style={{ width: "50px", height: "50px", borderRadius: "50%" }}
-              />
-            ),
+            /* eslint-disable react/prop-types */
+            Cell: ({ row }) => {
+              const url = `http://165.22.189.59:8001/${row.original.ruta_imagen_usuario}`;
+              console.log(url); // <-- Aquí estamos logueando la URL
+              return (
+                <img
+                  src={url}
+                  alt="user"
+                  style={{ width: "50px", height: "50px", borderRadius: "50%" }}
+                />
+              );
+            },
           },
           { Header: "Nombre", accessor: "name", align: "left" },
           { Header: "Tipo de Usuario", accessor: "tipo_usuario", align: "left" },
@@ -99,7 +130,6 @@ function Usuarios() {
           // Aquí puedes agregar más columnas según sea necesario...
         ];
         const rows = data.map((user) => ({
-          image: "http://165.22.189.59:8001/storage/June2023/1686608103.png",
           id: user.id,
           name: user.name,
           tipo_usuario: user.tipo_usuario,
@@ -117,8 +147,15 @@ function Usuarios() {
         };
 
         const handleDelete = (row) => {
-          // Este es solo un ejemplo. Necesitas implementar lo que debe hacer esta función en tu caso específico.
-          console.log("Borrar usuario: ", row.id);
+          axios
+            .delete(`http://165.22.189.59:8001/api/deleteuser/${row.original.id}`)
+            .then((response) => {
+              console.log("Usuario borrado:", row.original.id);
+              fetchUsers(); // Obtener la lista actualizada de usuarios
+            })
+            .catch((error) => {
+              console.error("Error al borrar usuario:", error);
+            });
         };
 
         setData({ columns, rows });
@@ -201,15 +238,48 @@ function Usuarios() {
                         <MDBox pt={4} pb={3} px={3}>
                           <MDBox component="form" role="form">
                             <MDBox mb={2}>
-                              <MDInput type="text" label="Usuario" variant="standard" fullWidth />
+                              <MDInput
+                                type="text"
+                                label="Nombre"
+                                variant="standard"
+                                fullWidth
+                                value={username}
+                                onChange={(event) => setUsername(event.target.value)}
+                              />
                             </MDBox>
                             <MDBox mb={2}>
                               <MDInput
                                 type="password"
-                                label="Contraseña"
+                                label="Password"
                                 variant="standard"
                                 fullWidth
+                                value={password}
+                                onChange={(event) => setPassword(event.target.value)}
                               />
+                            </MDBox>
+                            <MDBox mb={2}>
+                              <MDInput
+                                type="text"
+                                label="Email"
+                                variant="standard"
+                                fullWidth
+                                value={email}
+                                onChange={(event) => setEmail(event.target.value)}
+                              />
+                            </MDBox>
+                            <MDBox mb={2}>
+                              <FormControl variant="standard" fullWidth>
+                                <InputLabel id="tipo-usuario-label">Tipo de Usuario</InputLabel>
+                                <Select
+                                  labelId="tipo-usuario-label"
+                                  id="tipo-usuario-select"
+                                  value={tipoUsuario}
+                                  onChange={(event) => setTipoUsuario(event.target.value)}
+                                >
+                                  <MenuItem value={"Tipo1"}>Tipo 1</MenuItem>
+                                  <MenuItem value={"Tipo2"}>Tipo 2</MenuItem>
+                                </Select>
+                              </FormControl>
                             </MDBox>
                             <MDBox mb={2}>
                               <MDInput
@@ -217,9 +287,7 @@ function Usuarios() {
                                 label="Imagen"
                                 variant="standard"
                                 fullWidth
-                                onChange={(event) =>
-                                  this.setState({ image: event.target.files[0] })
-                                }
+                                onChange={(event) => setImage(event.target.files[0])}
                               />
                             </MDBox>
                             <MDBox
