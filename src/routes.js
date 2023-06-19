@@ -70,19 +70,19 @@ const routes = [
   },
   {
     type: "collapse",
+    name: "Menu",
+    key: "menu",
+    icon: <Icon fontSize="small">table_view</Icon>,
+    route: "/menu",
+    component: <Menu />,
+  },
+  {
+    type: "collapse",
     name: "Actividad",
     key: "actividad",
     icon: <Icon fontSize="small">table_view</Icon>,
     route: "/actividad",
     component: <Actividad />,
-  },
-  {
-    type: "collapse",
-    name: "Menu",
-    key: "menu",
-    icon: <Icon fontSize="small">table_view</Icon>,
-    route: "/tmenu",
-    component: <Menu />,
   },
   {
     type: "collapse",
