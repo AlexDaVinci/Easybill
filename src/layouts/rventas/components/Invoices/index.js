@@ -1,6 +1,6 @@
 // @mui material components
 import Card from "@mui/material/Card";
-import PropTypes from "prop-types"; // Añade esta línea
+import PropTypes from "prop-types";
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
@@ -10,18 +10,20 @@ import MDButton from "components/MDButton";
 // Billing page components
 import Invoice from "layouts/rventas/components/Invoice";
 
-function Invoices({ carrito, eliminarDelCarrito }) {
+function Invoices({ carrito, eliminarDelCarrito, hacerVenta }) {
   Invoices.propTypes = {
     carrito: PropTypes.array.isRequired,
-    eliminarDelCarrito: PropTypes.func.isRequired, // Añade esta línea
+    eliminarDelCarrito: PropTypes.func.isRequired,
+    hacerVenta: PropTypes.func.isRequired,
   };
+
   return (
     <Card sx={{ height: "100%" }}>
       <MDBox pt={2} px={2} display="flex" justifyContent="space-between" alignItems="center">
         <MDTypography variant="h6" fontWeight="medium">
           Carrito
         </MDTypography>
-        <MDButton variant="outlined" color="info" size="small">
+        <MDButton variant="outlined" color="info" size="small" onClick={hacerVenta}>
           Hacer venta
         </MDButton>
       </MDBox>
@@ -32,8 +34,9 @@ function Invoices({ carrito, eliminarDelCarrito }) {
               key={index}
               date="Producto"
               id={producto.nombre_producto}
-              price={`$${producto.precio}`}
-              eliminarDelCarrito={() => eliminarDelCarrito(producto.cartId)} // Añade esta línea
+              price={`$${producto.total}`}
+              quantity={producto.cantidad} // Añade esta línea
+              eliminarDelCarrito={() => eliminarDelCarrito(producto)}
             />
           ))}
         </MDBox>

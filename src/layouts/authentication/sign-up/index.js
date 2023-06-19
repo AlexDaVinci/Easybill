@@ -27,20 +27,18 @@ function Cover() {
         password: password,
       })
       .then((response) => {
-        token = response.data.token;
         console.log("Successful response:", response.data);
-        return axios.get("http://165.22.189.59:8001/api/user-profile", {
-          headers: {
-            Authorization: `Bearer ${token}`, // Asegúrate de que 'token' sea tu token de autenticación.
-          },
-          email: email,
-          password: password,
-        });
-      })
-      .then((response) => {
-        console.log("User data:", response.data);
-        logIn(token, response.data); // Guardamos los datos del usuario
-        navigate("/usuarios");
+        axios
+          .get("http://165.22.189.59:8001/api/user-profile", {
+            headers: { Authorization: `Bearer ${response.data.token}` },
+          })
+          .then((userResponse) => {
+            logIn(response.data.token, userResponse.data);
+            navigate("/usuarios");
+          })
+          .catch((userError) => {
+            console.error("Error fetching user data:", userError);
+          });
       })
       .catch((error) => {
         console.error("Error:", error);

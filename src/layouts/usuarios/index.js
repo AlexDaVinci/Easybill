@@ -8,7 +8,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Icon from "@mui/material/Icon";
 import axios from "axios";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
@@ -19,8 +19,11 @@ import DataTable from "examples/Tables/DataTable";
 import MDInput from "components/MDInput";
 import logo from "assets/images/logowh.png";
 import { Modal as MuiModal, Box, Typography, Button } from "@mui/material";
+import { AuthContext } from "../../AuthContext";
 
 function Usuarios() {
+  const auth = useContext(AuthContext);
+  const token = auth.authToken;
   const [data, setData] = useState({ columns: [], rows: [] });
   const [open, setOpen] = React.useState(false);
   const [username, setUsername] = useState("");
@@ -47,7 +50,11 @@ function Usuarios() {
   const handleClose = () => setOpen(false);
 
   const fetchUsers = () => {
-    fetch("http://165.22.189.59:8001/api/allusers")
+    fetch("http://165.22.189.59:8001/api/allusers", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then((response) => response.json())
       .then((data) => {
         const rows = data.map((user) => ({
@@ -87,6 +94,7 @@ function Usuarios() {
       .post("http://165.22.189.59:8001/api/register", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -117,6 +125,7 @@ function Usuarios() {
       .post(`http://165.22.189.59:8001/api/user/${editingUser.id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -130,7 +139,11 @@ function Usuarios() {
   };
 
   useEffect(() => {
-    fetch("http://165.22.189.59:8001/api/allusers")
+    fetch("http://165.22.189.59:8001/api/allusers", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then((response) => response.json())
       .then((data) => {
         const columns = [
@@ -203,7 +216,11 @@ function Usuarios() {
 
         const handleDelete = (row) => {
           axios
-            .delete(`http://165.22.189.59:8001/api/deleteuser/${row.original.id}`)
+            .delete(`http://165.22.189.59:8001/api/deleteuser/${row.original.id}`, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            })
             .then((response) => {
               console.log("Usuario borrado:", row.original.id);
               fetchUsers(); // Obtener la lista actualizada de usuarioss

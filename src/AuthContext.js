@@ -4,12 +4,24 @@ import PropTypes from "prop-types";
 export const AuthContext = createContext(); // Aquí creas el contexto
 
 export const AuthProvider = ({ children }) => {
-  const [authToken, setAuthToken] = useState(null);
-  const [userData, setUserData] = useState(null); // Aquí manejaremos los datos del usuario
+  const [authToken, setAuthToken] = useState(localStorage.getItem("authToken"));
+  const [userData, setUserData] = useState(() => {
+    const storedUserData = localStorage.getItem("userData");
+    if (storedUserData) {
+      try {
+        return JSON.parse(storedUserData);
+      } catch (error) {
+        console.error("Invalid user data in localStorage:", storedUserData);
+      }
+    }
+    return null;
+  });
 
-  const logIn = (token, user) => {
+  const logIn = (token, userData) => {
     setAuthToken(token);
-    setUserData(user); // Y aquí los establecemos
+    setUserData(userData);
+    localStorage.setItem("authToken", token);
+    localStorage.setItem("userData", JSON.stringify(userData));
   };
 
   const logOut = () => {

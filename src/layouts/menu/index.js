@@ -8,7 +8,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Icon from "@mui/material/Icon";
 import axios from "axios";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
@@ -19,8 +19,11 @@ import DataTable from "examples/Tables/DataTable";
 import MDInput from "components/MDInput";
 import logo from "assets/images/logowh.png";
 import { Modal as MuiModal, Box, Typography, Button } from "@mui/material";
+import { AuthContext } from "../../AuthContext";
 
 function Menu() {
+  const auth = useContext(AuthContext);
+  const token = auth.authToken;
   const [data, setData] = useState({ columns: [], rows: [] });
   const [open, setOpen] = React.useState(false);
   const [nombre, setNombre] = useState("");
@@ -43,7 +46,11 @@ function Menu() {
   const handleClose = () => setOpen(false);
 
   const fetchUsers = () => {
-    fetch("http://165.22.189.59:8001/api/productos")
+    fetch("http://165.22.189.59:8001/api/productos", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then((response) => response.json())
       .then((data) => {
         const rows = data.map((plato) => ({
@@ -78,6 +85,7 @@ function Menu() {
       .post("http://165.22.189.59:8001/api/productos", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -105,6 +113,7 @@ function Menu() {
       .post(`http://165.22.189.59:8001/api/editproducto/${editingPlato.id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -118,7 +127,11 @@ function Menu() {
   };
 
   useEffect(() => {
-    fetch("http://165.22.189.59:8001/api/productos")
+    fetch("http://165.22.189.59:8001/api/productos", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then((response) => response.json())
       .then((data) => {
         const columns = [
@@ -186,7 +199,11 @@ function Menu() {
 
         const handleDelete = (row) => {
           axios
-            .delete(`http://165.22.189.59:8001/api/productos/${row.original.id}`)
+            .delete(`http://165.22.189.59:8001/api/productos/${row.original.id}`, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            })
             .then((response) => {
               console.log("Plato borrado:", row.original.id);
               fetchUsers(); // Obtener la lista actualizada de usuarioss

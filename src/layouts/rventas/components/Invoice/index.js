@@ -8,7 +8,7 @@ import Icon from "@mui/material/Icon";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 
-function Invoice({ date, id, price, noGutter, eliminarDelCarrito }) {
+function Invoice({ date, id, price, quantity, noGutter, eliminarDelCarrito }) {
   return (
     <MDBox
       component="li"
@@ -23,9 +23,27 @@ function Invoice({ date, id, price, noGutter, eliminarDelCarrito }) {
         <MDTypography display="block" variant="button" fontWeight="medium">
           {date}
         </MDTypography>
-        <MDTypography variant="caption" fontWeight="regular" color="text">
-          {id}
+        <MDBox display="flex" alignItems="center">
+          <MDTypography variant="caption" fontWeight="regular" color="text">
+            {id}
+          </MDTypography>
+        </MDBox>
+      </MDBox>
+      <MDBox
+        lineHeight={1.125}
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <MDTypography display="block" variant="button" fontWeight="medium">
+          Cantidad
         </MDTypography>
+        <MDBox display="flex" alignItems="center">
+          <MDTypography variant="caption" fontWeight="regular" color="text">
+            {`${quantity}`}
+          </MDTypography>
+        </MDBox>
       </MDBox>
       <MDBox display="flex" alignItems="center">
         <MDTypography variant="button" fontWeight="regular" color="text">
@@ -57,8 +75,9 @@ Invoice.propTypes = {
   date: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   price: PropTypes.string.isRequired,
+  quantity: PropTypes.number.isRequired, // Añade esta línea
   noGutter: PropTypes.bool,
-  eliminarDelCarrito: PropTypes.func.isRequired, // Añade esta línea
+  eliminarDelCarrito: PropTypes.func.isRequired,
 };
 
 export default Invoice;
