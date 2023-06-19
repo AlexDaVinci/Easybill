@@ -15,7 +15,7 @@ function Cover() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-
+  var token = "";
   const { logIn } = useContext(AuthContext); // Usamos el contexto aquí
 
   const handleSubmit = (event) => {
@@ -27,8 +27,19 @@ function Cover() {
         password: password,
       })
       .then((response) => {
+        token = response.data.token;
         console.log("Successful response:", response.data);
-        logIn(response.data.token); // Guardamos el token usando la función logIn del contexto
+        return axios.get("http://165.22.189.59:8001/api/user-profile", {
+          headers: {
+            Authorization: `Bearer ${token}`, // Asegúrate de que 'token' sea tu token de autenticación.
+          },
+          email: email,
+          password: password,
+        });
+      })
+      .then((response) => {
+        console.log("User data:", response.data);
+        logIn(token, response.data); // Guardamos los datos del usuario
         navigate("/usuarios");
       })
       .catch((error) => {

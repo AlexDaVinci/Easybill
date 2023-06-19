@@ -16,6 +16,7 @@ import Invoices from "layouts/rventas/components/Invoices";
 import React, { useState, useEffect } from "react";
 
 function Rventas() {
+  const { userData } = useContext(AuthContext);
   const [productos, setProductos] = useState([]);
   const [carrito, setCarrito] = useState([]);
 
@@ -41,7 +42,7 @@ function Rventas() {
 
   const auth = useContext(AuthContext);
   console.log(auth.authToken);
-
+  console.log(userData);
   return (
     <DashboardLayout>
       <DashboardNavbar absolute isMini />
