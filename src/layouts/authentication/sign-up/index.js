@@ -1,32 +1,22 @@
-// react-router-dom components
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
-// @mui material components
-import Card from "@mui/material/Card";
-
-// axios
 import axios from "axios";
-
-// useState Hook
-import { useState } from "react";
-
-// Material Dashboard 2 React components
+import Card from "@mui/material/Card";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDInput from "components/MDInput";
 import MDButton from "components/MDButton";
-
-// Authentication layout components
 import CoverLayout from "layouts/authentication/components/CoverLayout";
-
-// Images
 import bgImage from "assets/images/loginbg.png";
 import logo from "assets/images/logowh.png";
+import { AuthContext } from "../../../AuthContext"; // Asegúrate de reemplazar esto con la ruta correcta a AuthContext
 
 function Cover() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate(); // hook to navigate
+  const navigate = useNavigate();
+
+  const { logIn } = useContext(AuthContext); // Usamos el contexto aquí
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -38,6 +28,7 @@ function Cover() {
       })
       .then((response) => {
         console.log("Successful response:", response.data);
+        logIn(response.data.token); // Guardamos el token usando la función logIn del contexto
         navigate("/usuarios");
       })
       .catch((error) => {

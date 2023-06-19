@@ -1,19 +1,3 @@
-/**
-=========================================================
-* Material Dashboard 2 React - v2.2.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
-// prop-types is library for typechecking of props
 import PropTypes from "prop-types";
 
 // @mui material components
@@ -25,9 +9,9 @@ import Icon from "@mui/material/Icon";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 
-function DefaultInfoCard({ color, icon, title, description, value }) {
+function DefaultInfoCard({ color, image, title, description, value, onClick }) {
   return (
-    <Card>
+    <Card onClick={onClick}>
       <MDBox p={2} mx={3} display="flex" justifyContent="center">
         <MDBox
           display="grid"
@@ -35,13 +19,13 @@ function DefaultInfoCard({ color, icon, title, description, value }) {
           alignItems="center"
           bgColor={color}
           color="white"
-          width="4rem"
-          height="4rem"
+          width="10rem"
+          height="10rem"
           shadow="md"
           borderRadius="lg"
           variant="gradient"
         >
-          <Icon fontSize="default">{icon}</Icon>
+          <img src={image} alt={title} style={{ width: "10rem", height: "10rem" }} />
         </MDBox>
       </MDBox>
       <MDBox pb={2} px={2} textAlign="center" lineHeight={1.25}>
@@ -69,15 +53,17 @@ DefaultInfoCard.defaultProps = {
   color: "info",
   value: "",
   description: "",
+  image: "", // default image is blank
 };
 
 // Typechecking props for the DefaultInfoCard
 DefaultInfoCard.propTypes = {
   color: PropTypes.oneOf(["primary", "secondary", "info", "success", "warning", "error", "dark"]),
-  icon: PropTypes.node.isRequired,
+  image: PropTypes.string, // add image prop
   title: PropTypes.string.isRequired,
   description: PropTypes.string,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  onClick: PropTypes.func,
 };
 
 export default DefaultInfoCard;

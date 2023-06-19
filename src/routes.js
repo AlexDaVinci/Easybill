@@ -51,6 +51,7 @@ import Usuarios from "layouts/usuarios";
 import Menu from "layouts/menu";
 import Pedidos from "layouts/pedidos";
 import Ventas from "layouts/ventas";
+import Rventas from "layouts/rventas";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
@@ -75,6 +76,14 @@ const routes = [
     icon: <Icon fontSize="small">table_view</Icon>,
     route: "/menu",
     component: <Menu />,
+  },
+  {
+    type: "collapse",
+    name: "Realizar venta",
+    key: "Rventas",
+    icon: <Icon fontSize="small">receipt_long</Icon>,
+    route: "/RealizarVentas",
+    component: <Rventas />,
   },
   {
     type: "collapse",

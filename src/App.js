@@ -17,6 +17,7 @@ import routes from "routes";
 import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "context";
 import brandWhite from "assets/images/logo-ct.png";
 import brandDark from "assets/images/logo-ct-dark.png";
+import { AuthProvider } from "AuthContext";
 
 export default function App() {
   const [controller, dispatch] = useMaterialUIController();
@@ -108,8 +109,35 @@ export default function App() {
   const shouldShowSidenav = layout === "dashboard";
 
   return direction === "rtl" ? (
-    <CacheProvider value={rtlCache}>
-      <ThemeProvider theme={darkMode ? themeDarkRTL : themeRTL}>
+    <AuthProvider>
+      <CacheProvider value={rtlCache}>
+        <ThemeProvider theme={darkMode ? themeDarkRTL : themeRTL}>
+          <CssBaseline />
+          {shouldShowSidenav && (
+            <>
+              <Sidenav
+                color={sidenavColor}
+                brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
+                brandName="EasyBill"
+                routes={routes}
+                onMouseEnter={handleOnMouseEnter}
+                onMouseLeave={handleOnMouseLeave}
+              />
+              <Configurator />
+              {configsButton}
+            </>
+          )}
+          {layout === "vr" && <Configurator />}
+          <Routes>
+            {getRoutes(routes)}
+            <Route path="*" element={<Navigate to="/authentication/sign-up" />} />
+          </Routes>
+        </ThemeProvider>
+      </CacheProvider>
+    </AuthProvider>
+  ) : (
+    <AuthProvider>
+      <ThemeProvider theme={darkMode ? themeDark : theme}>
         <CssBaseline />
         {shouldShowSidenav && (
           <>
@@ -128,33 +156,10 @@ export default function App() {
         {layout === "vr" && <Configurator />}
         <Routes>
           {getRoutes(routes)}
+          <Route path="/authentication/reset-password" />
           <Route path="*" element={<Navigate to="/authentication/sign-up" />} />
         </Routes>
       </ThemeProvider>
-    </CacheProvider>
-  ) : (
-    <ThemeProvider theme={darkMode ? themeDark : theme}>
-      <CssBaseline />
-      {shouldShowSidenav && (
-        <>
-          <Sidenav
-            color={sidenavColor}
-            brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
-            brandName="EasyBill"
-            routes={routes}
-            onMouseEnter={handleOnMouseEnter}
-            onMouseLeave={handleOnMouseLeave}
-          />
-          <Configurator />
-          {configsButton}
-        </>
-      )}
-      {layout === "vr" && <Configurator />}
-      <Routes>
-        {getRoutes(routes)}
-        <Route path="/authentication/reset-password" />
-        <Route path="*" element={<Navigate to="/authentication/sign-up" />} />
-      </Routes>
-    </ThemeProvider>
+    </AuthProvider>
   );
 }

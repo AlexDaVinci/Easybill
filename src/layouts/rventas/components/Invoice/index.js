@@ -1,18 +1,3 @@
-/**
-=========================================================
-* Material Dashboard 2 React - v2.2.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
 // prop-types is a library for typechecking of props
 import PropTypes from "prop-types";
 
@@ -23,7 +8,7 @@ import Icon from "@mui/material/Icon";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 
-function Invoice({ date, id, price, noGutter }) {
+function Invoice({ date, id, price, noGutter, eliminarDelCarrito }) {
   return (
     <MDBox
       component="li"
@@ -46,11 +31,16 @@ function Invoice({ date, id, price, noGutter }) {
         <MDTypography variant="button" fontWeight="regular" color="text">
           {price}
         </MDTypography>
-        <MDBox display="flex" alignItems="center" lineHeight={1} ml={3} sx={{ cursor: "pointer" }}>
-          <Icon fontSize="small">picture_as_pdf</Icon>
-          <MDTypography variant="button" fontWeight="bold">
-            &nbsp;PDF
-          </MDTypography>
+        <MDBox
+          display="flex"
+          alignItems="center"
+          lineHeight={1}
+          ml={3}
+          sx={{ cursor: "pointer" }}
+          onClick={eliminarDelCarrito}
+        >
+          <Icon fontSize="small">delete</Icon>
+          <MDTypography variant="button" fontWeight="bold"></MDTypography>
         </MDBox>
       </MDBox>
     </MDBox>
@@ -68,6 +58,7 @@ Invoice.propTypes = {
   id: PropTypes.string.isRequired,
   price: PropTypes.string.isRequired,
   noGutter: PropTypes.bool,
+  eliminarDelCarrito: PropTypes.func.isRequired, // Añade esta línea
 };
 
 export default Invoice;
