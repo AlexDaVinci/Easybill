@@ -58,16 +58,13 @@ import Icon from "@mui/material/Icon";
 
 const routes = [
   {
-    route: "/dashboard",
-    component: <Dashboard />,
-  },
-  {
     type: "collapse",
     name: "Usuarios",
     key: "usuarios",
     icon: <Icon fontSize="small">table_view</Icon>,
     route: "/usuarios",
     component: <Usuarios />,
+    roles: ["administrador"],
   },
   {
     type: "collapse",
@@ -76,6 +73,7 @@ const routes = [
     icon: <Icon fontSize="small">table_view</Icon>,
     route: "/menu",
     component: <Menu />,
+    roles: ["administrador"],
   },
   {
     type: "collapse",
@@ -84,6 +82,7 @@ const routes = [
     icon: <Icon fontSize="small">receipt_long</Icon>,
     route: "/RealizarVentas",
     component: <Rventas />,
+    roles: ["cajero"],
   },
   {
     type: "collapse",
@@ -92,6 +91,7 @@ const routes = [
     icon: <Icon fontSize="small">table_view</Icon>,
     route: "/actividad",
     component: <Actividad />,
+    roles: ["administrador"],
   },
   {
     type: "collapse",
@@ -100,6 +100,7 @@ const routes = [
     icon: <Icon fontSize="small">table_view</Icon>,
     route: "/pedidos",
     component: <Pedidos />,
+    roles: ["administrador"],
   },
   {
     type: "collapse",
@@ -108,6 +109,7 @@ const routes = [
     icon: <Icon fontSize="small">table_view</Icon>,
     route: "/ventas",
     component: <Ventas />,
+    roles: ["administrador"],
   },
   {
     type: "collapse",
@@ -116,6 +118,7 @@ const routes = [
     icon: <Icon fontSize="small">table_view</Icon>,
     route: "/tables",
     component: <Tables />,
+    roles: ["administrador"],
   },
   {
     type: "collapse",
@@ -124,10 +127,12 @@ const routes = [
     icon: <Icon fontSize="small">receipt_long</Icon>,
     route: "/billing",
     component: <Billing />,
+    roles: ["administrador"],
   },
   {
     route: "/rtl",
     component: <RTL />,
+    roles: ["administrador"],
   },
   {
     type: "collapse",
@@ -136,6 +141,7 @@ const routes = [
     icon: <Icon fontSize="small">notifications</Icon>,
     route: "/notifications",
     component: <Notifications />,
+    roles: ["administrador"],
   },
   {
     type: "collapse",
@@ -144,14 +150,17 @@ const routes = [
     icon: <Icon fontSize="small">person</Icon>,
     route: "/profile",
     component: <Profile />,
+    roles: ["administrador"],
   },
   {
     route: "/authentication/sign-up",
     component: <SignUp />,
+    roles: ["administrador, cajero"],
   },
   {
     route: "/authentication/reset-password",
     component: <ResetPassword />,
+    roles: ["administrador, cajero"],
   },
 ];
 

@@ -7,7 +7,7 @@ import Configurator from "examples/Configurator";
 import theme from "assets/theme";
 import brandWhite from "assets/images/logo-ct.png";
 import { AuthProvider } from "AuthContext";
-import routes from "routesAdmin";
+import routes from "routes";
 
 export default function App() {
   const { pathname } = useLocation();
