@@ -9,6 +9,7 @@ import MenuItem from "@mui/material/MenuItem";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import React, { useState, useEffect, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Icon from "@mui/material/Icon";
 import axios from "axios";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
@@ -23,11 +24,37 @@ import { AuthContext } from "../../AuthContext";
 import DefaultInfoCard from "examples/Cards/InfoCards/DefaultInfoCard";
 import Invoices from "layouts/rventas/components/Invoices";
 import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
+import swal from "sweetalert";
 
 function Rventas() {
+  const [formValid, setFormValid] = useState(false);
+  const navigate = useNavigate();
   const { userData } = useContext(AuthContext);
   const [productos, setProductos] = useState([]);
   const [carrito, setCarrito] = useState([]);
+
+  const validateForm = () => {
+    if (nombre !== "" && cedula !== "" && metodoPago !== "") {
+      setFormValid(true);
+    } else {
+      setFormValid(false);
+    }
+  };
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target || event.currentTarget;
+
+    // Actualiza los estados correspondientes según el campo modificado
+    if (name === "nombre") {
+      setNombre(value);
+    } else if (name === "cedula") {
+      setCedula(value);
+    } else if (name === "metodoPago") {
+      setMetodoPago(value);
+    }
+
+    validateForm(); // Valida el formulario completo después de cada cambio
+  };
 
   useEffect(() => {
     setModalOpen(true);
@@ -107,7 +134,14 @@ function Rventas() {
   const [cedula, setCedula] = useState("");
   const [metodoPago, setMetodoPago] = useState("");
 
-  const handleClose = () => setModalOpen(false);
+  const handleClose = () => {
+    setModalOpen(false);
+    navigate("/dashboard");
+  };
+
+  const handleContinue = () => {
+    setModalOpen(false);
+  };
 
   const hacerVenta = () => {
     const venta = {
@@ -154,6 +188,13 @@ function Rventas() {
             .then((response) => {
               console.log("Asignación exitosa:", response.data);
               // Aquí puedes manejar lo que sucede después de cada asignación
+              swal(
+                "Buen trabajo!",
+                "La venta se realizo correctamente, tu factura ya esta descargada!",
+                "success"
+              ).then((value) => {
+                navigate("/dashboard");
+              });
             })
             .catch((error) => {
               console.error("Hubo un error al hacer la asignación:", error);
@@ -291,7 +332,7 @@ function Rventas() {
       });
 
       currentX += tableWidth / headers.length;
-      page.drawText(`$${producto.total.toFixed(2)}`, {
+      page.drawText(`$${parseFloat(producto.total).toFixed(2)}`, {
         x: currentX,
         y: currentY,
         size: fontSize,
@@ -331,7 +372,7 @@ function Rventas() {
     });
 
     // Total
-    const total = productos.reduce((sum, producto) => sum + producto.total, 0);
+    const total = productos.reduce((sum, producto) => sum + parseFloat(producto.total), 0);
     page.drawText(`Total: $${total.toFixed(2)}`, {
       x: 400,
       y: tableBottomY - 30,
@@ -437,8 +478,9 @@ function Rventas() {
                       label="Nombre"
                       variant="standard"
                       fullWidth
+                      name="nombre"
                       value={nombre}
-                      onChange={(event) => setNombre(event.target.value)}
+                      onChange={handleInputChange}
                     />
                   </MDBox>
                   <MDBox mb={2}>
@@ -447,8 +489,14 @@ function Rventas() {
                       label="Identificacion"
                       variant="standard"
                       fullWidth
+                      name="cedula"
                       value={cedula}
-                      onChange={(event) => setCedula(event.target.value)}
+                      onChange={handleInputChange}
+                      inputProps={{
+                        min: "0", // Valor mínimo permitido
+                        pattern: "[0-9]*",
+                        inputMode: "numeric",
+                      }}
                     />
                   </MDBox>
                   <MDBox mb={2}>
@@ -457,8 +505,9 @@ function Rventas() {
                       <Select
                         labelId="metodo-pago"
                         id="metodo-pago"
+                        name="metodoPago"
                         value={metodoPago}
-                        onChange={(event) => setMetodoPago(event.target.value)}
+                        onChange={handleInputChange}
                       >
                         <MenuItem value={"tarjeta"}>Tarjeta</MenuItem>
                         <MenuItem value={"efectivo"}>Efectivo</MenuItem>
@@ -486,7 +535,8 @@ function Rventas() {
                       variant="gradient"
                       color="info"
                       sx={{ flexGrow: 1, ml: 1 }} // Aplica un marginLeft para un espacio entre botones
-                      onClick={handleClose}
+                      onClick={handleContinue}
+                      disabled={!formValid}
                     >
                       Comenzar
                     </MDButton>

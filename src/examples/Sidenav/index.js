@@ -76,7 +76,6 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
   const renderRoutes = routes.map(
     ({ type, name, icon, title, noCollapse, key, href, route, roles }) => {
       let returnValue;
-      console.log("roles", roles);
       if (roles.includes(Role)) {
         if (type === "collapse") {
           returnValue = href ? (
@@ -152,7 +151,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
             <Icon sx={{ fontWeight: "bold" }}>open</Icon>
           </MDTypography>
         </MDBox>
-        <MDBox component={NavLink} to="/" display="flex" alignItems="center">
+        <MDBox component={NavLink} to="/dashboard" display="flex" alignItems="center">
           <img src={logo} alt="Logo" style={{ width: "60px", height: "50px" }} />
           <MDBox
             width={!brandName && "100%"}

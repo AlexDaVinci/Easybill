@@ -19,31 +19,37 @@ import DialogTitle from "@mui/material/DialogTitle";
 
 // Images
 import bgImage from "assets/images/loginbg.png";
+import { AuthContext } from "../../../AuthContext";
 
 function Cover() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [openDialog, setOpenDialog] = useState(false);
   const [dialogContent, setDialogContent] = useState("");
+  const auth = useContext(AuthContext);
+  const token = auth.authToken;
+  console.log(auth.userData.userData.id);
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
     axios
-      .post("http://165.22.189.59:8001/api/recuperar", {
-        email: email,
-      })
+      .post(
+        "http://165.22.189.59:8001/api/closeCaja",
+        {
+          user_id: auth.userData.userData.id,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      )
       .then((response) => {
-        console.log("Successful response:", response.data);
-        swal("Buen trabajo!", "En pocos segundos te llegara un correo!", "success").then(
-          (value) => {
-            navigate("/sign-up");
-          }
-        );
+        console.log(response);
+        navigate("/sign-in");
       })
       .catch((error) => {
         console.error("Error:", error);
-        swal("Oops", "Correo no registra!", "error");
+        swal("Oops", "Algo salio mal!", "error");
       });
   };
 
@@ -66,35 +72,22 @@ function Cover() {
           textAlign="center"
         >
           <MDTypography variant="h3" fontWeight="medium" color="white" mt={1}>
-            Restaurar contraseña
+            Finaliza tu jornada
           </MDTypography>
           <MDTypography display="block" variant="button" color="white" my={1}>
-            Vas a recibir un correo en maximo 60 segundos
+            Cuando quieras finalizar tu jornada haz click en el boton!
           </MDTypography>
         </MDBox>
         <MDBox pt={4} pb={3} px={3}>
           <MDBox component="form" role="form" onSubmit={handleSubmit}>
-            <MDBox mb={4}>
-              <MDInput
-                type="text"
-                label="Usuario"
-                variant="standard"
-                fullWidth
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </MDBox>
             <MDBox mt={6} mb={1}>
               <MDButton type="submit" variant="gradient" color="info" fullWidth>
-                Reset
+                Finalizar
               </MDButton>
             </MDBox>
           </MDBox>
         </MDBox>
       </Card>
-      <Dialog open={openDialog} onClose={handleCloseDialog}>
-        <DialogTitle>{dialogContent}</DialogTitle>
-      </Dialog>
     </CoverLayout>
   );
 }

@@ -1,39 +1,51 @@
-/**
-=========================================================
-* Material Dashboard 2 React - v2.2.0
-=========================================================
+/* eslint-disable react/prop-types */
 
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
-// @mui material components
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
-
-// Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
-
-// Material Dashboard 2 React example components
+import React, { useState, useEffect, useContext } from "react";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
-import Footer from "examples/Footer";
 import DataTable from "examples/Tables/DataTable";
-
-// Data
-import authorsTableData from "layouts/tables/data/authorsTableData";
-import projectsTableData from "layouts/tables/data/projectsTableData";
+import { AuthContext } from "../../AuthContext";
 
 function Actividad() {
-  const { columns, rows } = authorsTableData();
-  const { columns: pColumns, rows: pRows } = projectsTableData();
+  const auth = useContext(AuthContext);
+  const token = auth.authToken;
+  const [data, setData] = useState({ columns: [], rows: [] });
+
+  useEffect(() => {
+    fetch("http://165.22.189.59:8001/api/events", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        const columns = [
+          { Header: "Nombre de usuario", accessor: "nombre_usuario", align: "left" },
+          { Header: "Modulo", accessor: "modulo", align: "left" },
+          { Header: "Evento", accessor: "event", align: "left" },
+          { Header: "Nombre de objeto", accessor: "nombre_objeto", align: "left" },
+          { Header: "Fecha de Creación", accessor: "created_at", align: "left" },
+          // Aquí puedes agregar más columnas según sea necesario...
+        ];
+        const rows = data.map((user) => ({
+          nombre_usuario: user.nombre_usuario,
+          modulo: user.modulo,
+          event: user.event,
+          nombre_objeto: user.nombre_objeto,
+          created_at: user.created_at,
+          // Agrega aquí más campos si es necesario...
+        }));
+        setData({ columns, rows });
+      })
+      .catch((error) => console.error(error));
+  }, []);
+
+  const { columns, rows } = data;
 
   return (
     <DashboardLayout>
@@ -53,7 +65,7 @@ function Actividad() {
                 coloredShadow="info"
               >
                 <MDTypography variant="h6" color="white">
-                  Authors Table
+                  Registro de actividad
                 </MDTypography>
               </MDBox>
               <MDBox pt={3}>
@@ -67,36 +79,8 @@ function Actividad() {
               </MDBox>
             </Card>
           </Grid>
-          <Grid item xs={12}>
-            <Card>
-              <MDBox
-                mx={2}
-                mt={-3}
-                py={3}
-                px={2}
-                variant="gradient"
-                bgColor="info"
-                borderRadius="lg"
-                coloredShadow="info"
-              >
-                <MDTypography variant="h6" color="white">
-                  Projects Table
-                </MDTypography>
-              </MDBox>
-              <MDBox pt={3}>
-                <DataTable
-                  table={{ columns: pColumns, rows: pRows }}
-                  isSorted={false}
-                  entriesPerPage={false}
-                  showTotalEntries={false}
-                  noEndBorder
-                />
-              </MDBox>
-            </Card>
-          </Grid>
         </Grid>
       </MDBox>
-      <Footer />
     </DashboardLayout>
   );
 }

@@ -20,6 +20,8 @@ import MDInput from "components/MDInput";
 import logo from "assets/images/logowh.png";
 import { Modal as MuiModal, Box, Typography, Button } from "@mui/material";
 import { AuthContext } from "../../AuthContext";
+import swal from "sweetalert";
+import { Link, useNavigate } from "react-router-dom";
 
 function Usuarios() {
   const auth = useContext(AuthContext);
@@ -101,8 +103,14 @@ function Usuarios() {
         console.log(response);
         fetchUsers(); // Obtener la lista actualizada de usuarios
         handleClose(); // Cerrar el modal después de añadir el usuario
+        swal("Buen trabajo!", "Se ha agregado un usuario nuevo!", "success");
       })
       .catch((error) => {
+        swal(
+          "Oops",
+          "Parece que hubo un error, todos los campos deben estar diligenciados!",
+          "error"
+        );
         console.error(error);
       });
   };
@@ -132,9 +140,11 @@ function Usuarios() {
         console.log(response);
         fetchUsers(); // Obtener la lista actualizada de usuarios
         handleCloseEdit(); // Cerrar el modal después de actualizar el usuario
+        swal("Buen trabajo!", "Se ha editado el usuario!", "success");
       })
       .catch((error) => {
         console.error(error);
+        swal("Oops", "Parece que hubo un error", "error");
       });
   };
 
@@ -224,8 +234,10 @@ function Usuarios() {
             .then((response) => {
               console.log("Usuario borrado:", row.original.id);
               fetchUsers(); // Obtener la lista actualizada de usuarioss
+              swal("Buen trabajo!", "Se ha eliminado el usuario!", "success");
             })
             .catch((error) => {
+              swal("Oops", "Parece que hubo un error!", "error");
               console.error("Error al borrar usuario:", error);
             });
         };
@@ -348,7 +360,6 @@ function Usuarios() {
                                   value={tipoUsuario}
                                   onChange={(event) => setTipoUsuario(event.target.value)}
                                 >
-                                  <MenuItem value={"administrador"}>Administrador</MenuItem>
                                   <MenuItem value={"cajero"}>Cajero</MenuItem>
                                 </Select>
                               </FormControl>
@@ -494,7 +505,6 @@ function Usuarios() {
                         value={tipoUsuario}
                         onChange={(event) => setTipoUsuario(event.target.value)}
                       >
-                        <MenuItem value={"administrador"}>Administrador</MenuItem>
                         <MenuItem value={"cajero"}>Cajero</MenuItem>
                       </Select>
                     </FormControl>

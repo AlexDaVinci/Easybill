@@ -20,6 +20,8 @@ import MDInput from "components/MDInput";
 import logo from "assets/images/logowh.png";
 import { Modal as MuiModal, Box, Typography, Button } from "@mui/material";
 import { AuthContext } from "../../AuthContext";
+import swal from "sweetalert";
+import { Link, useNavigate } from "react-router-dom";
 
 function Menu() {
   const auth = useContext(AuthContext);
@@ -92,9 +94,15 @@ function Menu() {
         console.log(response);
         fetchUsers(); // Obtener la lista actualizada de usuarios
         handleClose(); // Cerrar el modal después de añadir el usuario
+        swal("Buen trabajo!", "Se ha añadido un nuevo Plato!", "success");
       })
       .catch((error) => {
         console.error(error);
+        swal(
+          "Oops",
+          "Parece que hubo un error, todos los campos deben estar diligenciados!",
+          "error"
+        );
       });
   };
 
@@ -120,9 +128,11 @@ function Menu() {
         console.log(response);
         fetchUsers(); // Obtener la lista actualizada de usuarios
         handleCloseEdit(); // Cerrar el modal después de actualizar el usuario
+        swal("Buen trabajo!", "Se ha editado el plato!", "success");
       })
       .catch((error) => {
         console.error(error);
+        swal("Oops", "Parece que hubo un error!", "error");
       });
   };
 
@@ -207,9 +217,11 @@ function Menu() {
             .then((response) => {
               console.log("Plato borrado:", row.original.id);
               fetchUsers(); // Obtener la lista actualizada de usuarioss
+              swal("Buen trabajo!", "Se Borrado el Plato!", "success");
             })
             .catch((error) => {
               console.error("Error al borrar plato:", error);
+              swal("Oops", "Parece que hubo un error", "error");
             });
         };
 

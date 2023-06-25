@@ -10,13 +10,23 @@ import CoverLayout from "layouts/authentication/components/CoverLayout";
 import bgImage from "assets/images/loginbg.png";
 import logo from "assets/images/logowh.png";
 import { AuthContext } from "../../../AuthContext"; // Asegúrate de reemplazar esto con la ruta correcta a AuthContext
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import swal from "sweetalert";
 
 function Cover() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [openDialog, setOpenDialog] = useState(false);
+  const [dialogContent, setDialogContent] = useState("");
   const navigate = useNavigate();
   var token = "";
   const { logIn } = useContext(AuthContext); // Usamos el contexto aquí
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+    setDialogContent("");
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -34,7 +44,54 @@ function Cover() {
           })
           .then((userResponse) => {
             logIn(response.data.token, userResponse.data);
-            navigate("/usuarios");
+            if (userResponse.data.userData.tipo_usuario == "administrador") {
+              navigate("/dashboard");
+            } else {
+              axios
+                .get("http://165.22.189.59:8001/api/validateCaja", {
+                  headers: { Authorization: `Bearer ${response.data.token}` },
+                })
+                .then((responseto) => {
+                  const codigo = responseto.status;
+                  if (codigo == "203") {
+                    navigate("/dashboard");
+                  } else {
+                    swal({
+                      title: "Estimado cajero, primero abre la caja!",
+                      content: {
+                        element: "input",
+                        attributes: {
+                          placeholder: "Valor actual de la caja",
+                          type: "number",
+                        },
+                      },
+                    }).then((value) => {
+                      axios
+                        .post(
+                          "http://165.22.189.59:8001/api/openCaja",
+                          {
+                            user_id: userResponse.data.userData.id,
+                            monto: value,
+                          },
+                          {
+                            headers: { Authorization: `Bearer ${response.data.token}` },
+                          }
+                        )
+                        .then((response) => {
+                          console.log(response);
+                          navigate("/dashboard");
+                        })
+                        .catch((error) => {
+                          console.error("Error:", error);
+                          swal("Oops", "Algo salio mal!", "error");
+                        });
+                    });
+                  }
+                })
+                .catch((error) => {
+                  console.error("Error:", error);
+                });
+            }
           })
           .catch((userError) => {
             console.error("Error fetching user data:", userError);
@@ -42,6 +99,7 @@ function Cover() {
       })
       .catch((error) => {
         console.error("Error:", error);
+        swal("Oops", "Correo o contraseña invalidos!", "error");
       });
   };
 
@@ -101,7 +159,7 @@ function Cover() {
                 Olvidaste tu contraseña?{" "}
                 <MDTypography
                   component={Link}
-                  to="/authentication/reset-password"
+                  to="/authentication/caja"
                   variant="button"
                   color="info"
                   fontWeight="medium"
@@ -114,6 +172,9 @@ function Cover() {
           </MDBox>
         </MDBox>
       </Card>
+      <Dialog open={openDialog} onClose={handleCloseDialog}>
+        <DialogTitle>{dialogContent}</DialogTitle>
+      </Dialog>
     </CoverLayout>
   );
 }

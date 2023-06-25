@@ -10,7 +10,7 @@ import Icon from "@mui/material/Icon";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 
-function ComplexStatisticsCard({ color, title, count, percentage, image }) {
+function ComplexStatisticsCardDay({ color, title, count, percentage, icon, venta }) {
   return (
     <Card>
       <MDBox display="flex" justifyContent="space-between" pt={1} px={2}>
@@ -27,11 +27,18 @@ function ComplexStatisticsCard({ color, title, count, percentage, image }) {
           height="4rem"
           mt={-3}
         >
-          <img src={image} alt="Logo" style={{ width: "60px", height: "50px" }} />
+          <Icon fontSize="medium" color="inherit">
+            {icon}
+          </Icon>
         </MDBox>
         <MDBox textAlign="right" lineHeight={1.25}>
           <MDTypography variant="h4">{title}</MDTypography>
-          <MDTypography variant="button">Cantidad vendida: {count}</MDTypography>
+          <MDTypography variant="button" style={{ display: "block" }}>
+            Numero de ventas: {venta}
+          </MDTypography>
+          <MDTypography variant="button" style={{ display: "block" }}>
+            Total vendido: {count}
+          </MDTypography>
         </MDBox>
       </MDBox>
       <Divider />
@@ -53,7 +60,7 @@ function ComplexStatisticsCard({ color, title, count, percentage, image }) {
 }
 
 // Setting default values for the props of ComplexStatisticsCard
-ComplexStatisticsCard.defaultProps = {
+ComplexStatisticsCardDay.defaultProps = {
   color: "info",
   percentage: {
     color: "success",
@@ -63,7 +70,7 @@ ComplexStatisticsCard.defaultProps = {
 };
 
 // Typechecking props for the ComplexStatisticsCard
-ComplexStatisticsCard.propTypes = {
+ComplexStatisticsCardDay.propTypes = {
   color: PropTypes.oneOf([
     "primary",
     "secondary",
@@ -90,7 +97,8 @@ ComplexStatisticsCard.propTypes = {
     amount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     label: PropTypes.string,
   }),
-  image: PropTypes.node.isRequired,
+  icon: PropTypes.node.isRequired,
+  venta: PropTypes.node.isRequired,
 };
 
-export default ComplexStatisticsCard;
+export default ComplexStatisticsCardDay;

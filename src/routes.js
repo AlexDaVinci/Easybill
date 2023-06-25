@@ -44,6 +44,7 @@ import Notifications from "layouts/notifications";
 import Profile from "layouts/profile";
 import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/sign-up";
+import Caja from "layouts/authentication/caja";
 import ResetPassword from "layouts/authentication/reset-password";
 
 import Actividad from "layouts/actividad";
@@ -52,11 +53,17 @@ import Menu from "layouts/menu";
 import Pedidos from "layouts/pedidos";
 import Ventas from "layouts/ventas";
 import Rventas from "layouts/rventas";
+import Reportes from "layouts/reportes";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
 
 const routes = [
+  {
+    route: "/dashboard",
+    component: <Dashboard />,
+    roles: ["administrador, cajero"],
+  },
   {
     type: "collapse",
     name: "Usuarios",
@@ -113,45 +120,54 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Tables",
-    key: "tables",
+    name: "Reportes",
+    key: "Reportes",
     icon: <Icon fontSize="small">table_view</Icon>,
-    route: "/tables",
-    component: <Tables />,
+    route: "/reportes",
+    component: <Reportes />,
     roles: ["administrador"],
   },
-  {
-    type: "collapse",
-    name: "Billing",
-    key: "billing",
-    icon: <Icon fontSize="small">receipt_long</Icon>,
-    route: "/billing",
-    component: <Billing />,
-    roles: ["administrador"],
-  },
-  {
-    route: "/rtl",
-    component: <RTL />,
-    roles: ["administrador"],
-  },
-  {
-    type: "collapse",
-    name: "Notifications",
-    key: "notifications",
-    icon: <Icon fontSize="small">notifications</Icon>,
-    route: "/notifications",
-    component: <Notifications />,
-    roles: ["administrador"],
-  },
-  {
-    type: "collapse",
-    name: "Profile",
-    key: "profile",
-    icon: <Icon fontSize="small">person</Icon>,
-    route: "/profile",
-    component: <Profile />,
-    roles: ["administrador"],
-  },
+  // {
+  //   type: "collapse",
+  //   name: "Tables",
+  //   key: "tables",
+  //   icon: <Icon fontSize="small">table_view</Icon>,
+  //   route: "/tables",
+  //   component: <Tables />,
+  //   roles: ["administrador"],
+  // },
+  // {
+  //   type: "collapse",
+  //   name: "Billing",
+  //   key: "billing",
+  //   icon: <Icon fontSize="small">receipt_long</Icon>,
+  //   route: "/billing",
+  //   component: <Billing />,
+  //   roles: ["administrador"],
+  // },
+  // {
+  //   route: "/rtl",
+  //   component: <RTL />,
+  //   roles: ["administrador"],
+  // },
+  // {
+  //   type: "collapse",
+  //   name: "Notifications",
+  //   key: "notifications",
+  //   icon: <Icon fontSize="small">notifications</Icon>,
+  //   route: "/notifications",
+  //   component: <Notifications />,
+  //   roles: ["administrador"],
+  // },
+  // {
+  //   type: "collapse",
+  //   name: "Profile",
+  //   key: "profile",
+  //   icon: <Icon fontSize="small">person</Icon>,
+  //   route: "/profile",
+  //   component: <Profile />,
+  //   roles: ["administrador"],
+  // },
   {
     route: "/authentication/sign-up",
     component: <SignUp />,
@@ -161,6 +177,15 @@ const routes = [
     route: "/authentication/reset-password",
     component: <ResetPassword />,
     roles: ["administrador, cajero"],
+  },
+  {
+    type: "collapse",
+    name: "Finalizar Jornada",
+    key: "FinalizarJornada",
+    icon: <Icon fontSize="small">person</Icon>,
+    route: "/authentication/caja",
+    component: <Caja />,
+    roles: ["cajero"],
   },
 ];
 
