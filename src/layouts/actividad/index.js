@@ -16,7 +16,7 @@ function Actividad() {
   const [data, setData] = useState({ columns: [], rows: [] });
 
   useEffect(() => {
-    fetch("http://165.22.189.59:8001/api/events", {
+    fetch("https://apieasybill.online/api/events", {
       headers: {
         Authorization: `Bearer ${token}`,
       },

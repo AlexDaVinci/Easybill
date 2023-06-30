@@ -35,7 +35,7 @@ function Cover() {
 
     axios
       .post(
-        "http://165.22.189.59:8001/api/closeCaja",
+        "https://apieasybill.online/api/closeCaja",
         {
           user_id: auth.userData.userData.id,
         },

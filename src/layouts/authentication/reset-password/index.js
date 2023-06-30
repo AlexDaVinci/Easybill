@@ -30,7 +30,7 @@ function Cover() {
     event.preventDefault();
 
     axios
-      .post("http://165.22.189.59:8001/api/recuperar", {
+      .post("https://apieasybill.online/api/recuperar", {
         email: email,
       })
       .then((response) => {

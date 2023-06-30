@@ -32,14 +32,14 @@ function Cover() {
     event.preventDefault();
 
     axios
-      .post("http://165.22.189.59:8001/api/login", {
+      .post("https://apieasybill.online/api/login", {
         email: email,
         password: password,
       })
       .then((response) => {
         console.log("Successful response:", response.data);
         axios
-          .get("http://165.22.189.59:8001/api/user-profile", {
+          .get("https://apieasybill.online/api/user-profile", {
             headers: { Authorization: `Bearer ${response.data.token}` },
           })
           .then((userResponse) => {
@@ -48,7 +48,7 @@ function Cover() {
               navigate("/dashboard");
             } else {
               axios
-                .get("http://165.22.189.59:8001/api/validateCaja", {
+                .get("https://apieasybill.online/api/validateCaja", {
                   headers: { Authorization: `Bearer ${response.data.token}` },
                 })
                 .then((responseto) => {
@@ -68,7 +68,7 @@ function Cover() {
                     }).then((value) => {
                       axios
                         .post(
-                          "http://165.22.189.59:8001/api/openCaja",
+                          "https://apieasybill.online/api/openCaja",
                           {
                             user_id: userResponse.data.userData.id,
                             monto: value,
