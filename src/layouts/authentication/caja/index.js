@@ -21,7 +21,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import bgImage from "assets/images/loginbg.png";
 import { AuthContext } from "../../../AuthContext";
 
-function Cover() {
+function Caja() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [openDialog, setOpenDialog] = useState(false);
@@ -92,4 +92,4 @@ function Cover() {
   );
 }
 
-export default Cover;
+export default Caja;

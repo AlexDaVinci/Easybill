@@ -159,7 +159,7 @@ function Cover() {
                 Olvidaste tu contraseña?{" "}
                 <MDTypography
                   component={Link}
-                  to="/authentication/caja"
+                  to="/authentication/reset-password"
                   variant="button"
                   color="info"
                   fontWeight="medium"
