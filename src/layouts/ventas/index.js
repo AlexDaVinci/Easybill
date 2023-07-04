@@ -49,17 +49,17 @@ function Ventas() {
 
   const fetchPedidosDia = () => {
     setSelected("Dia");
-    fetchPedidos("https://apieasybill.online/api/VentasDia");
+    fetchPedidos("https://165.22.189.59/api/VentasDia");
   };
 
   const fetchPedidosSemana = () => {
     setSelected("Semana");
-    fetchPedidos("https://apieasybill.online/api/VentasSemana");
+    fetchPedidos("https://165.22.189.59/api/VentasSemana");
   };
 
   const fetchPedidosMes = () => {
     setSelected("Mes");
-    fetchPedidos("https://apieasybill.online/api/VentasMes");
+    fetchPedidos("https://165.22.189.59/api/VentasMes");
   };
 
   const { columns, rows } = data;

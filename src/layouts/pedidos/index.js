@@ -61,17 +61,17 @@ function Pedidos() {
 
   const fetchPedidosDia = () => {
     setSelected("Dia");
-    fetchPedidos("https://apieasybill.online/api/PedidosDia");
+    fetchPedidos("https://165.22.189.59/api/PedidosDia");
   };
 
   const fetchPedidosSemana = () => {
     setSelected("Semana");
-    fetchPedidos("https://apieasybill.online/api/PedidosSemana");
+    fetchPedidos("https://165.22.189.59/api/PedidosSemana");
   };
 
   const fetchPedidosMes = () => {
     setSelected("Mes");
-    fetchPedidos("https://apieasybill.online/api/PedidosMes");
+    fetchPedidos("https://165.22.189.59/api/PedidosMes");
   };
 
   const { columns, rows } = data;

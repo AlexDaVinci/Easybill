@@ -28,7 +28,7 @@ function Reportes() {
 
   const fetchData = () => {
     axios
-      .get("https://apieasybill.online/api/ProductoDia", {
+      .get("https://165.22.189.59/api/ProductoDia", {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
@@ -40,7 +40,7 @@ function Reportes() {
       .catch((error) => console.error(error));
 
     axios
-      .get("https://apieasybill.online/api/ProductoSemana", {
+      .get("https://165.22.189.59/api/ProductoSemana", {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
@@ -52,7 +52,7 @@ function Reportes() {
       .catch((error) => console.error(error));
 
     axios
-      .get("https://apieasybill.online/api/ProductoMes", {
+      .get("https://165.22.189.59/api/ProductoMes", {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
@@ -64,7 +64,7 @@ function Reportes() {
       .catch((error) => console.error(error));
 
     axios
-      .get("https://apieasybill.online/api/UsuarioVendedor", {
+      .get("https://165.22.189.59/api/UsuarioVendedor", {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
@@ -76,7 +76,7 @@ function Reportes() {
       .catch((error) => console.error(error));
 
     axios
-      .get("https://apieasybill.online/api/MejorDia", {
+      .get("https://165.22.189.59/api/MejorDia", {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
@@ -88,7 +88,7 @@ function Reportes() {
       .catch((error) => console.error(error));
 
     axios
-      .get("https://apieasybill.online/api/MejorSemana", {
+      .get("https://165.22.189.59/api/MejorSemana", {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
@@ -111,7 +111,7 @@ function Reportes() {
                 color="white"
                 title={productosDia.producto}
                 count={productosDia.cantidad}
-                image={`https://apieasybill.online/${productosDia.ruta_imagen_producto}`}
+                image={`https://165.22.189.59/${productosDia.ruta_imagen_producto}`}
                 percentage={{ color: "success", amount: "", label: "PRODUCTO DEL DIA" }}
               />
             </MDBox>
@@ -122,7 +122,7 @@ function Reportes() {
                 color="white"
                 title={productosSemana.producto}
                 count={productosSemana.cantidad}
-                image={`https://apieasybill.online/${productosSemana.ruta_imagen_producto}`}
+                image={`https://165.22.189.59/${productosSemana.ruta_imagen_producto}`}
                 percentage={{ color: "success", amount: "", label: "PRODUCTO DE LA SEMANA" }}
               />
             </MDBox>
@@ -133,7 +133,7 @@ function Reportes() {
                 color="white"
                 title={productosMes.producto}
                 count={productosMes.cantidad}
-                image={`https://apieasybill.online/${productosMes.ruta_imagen_producto}`}
+                image={`https://165.22.189.59/${productosMes.ruta_imagen_producto}`}
                 percentage={{ color: "success", amount: "", label: "PRODUCTO DEL MES" }}
               />
             </MDBox>
@@ -149,7 +149,7 @@ function Reportes() {
                 title={usuarioVendedor.usuario}
                 count={usuarioVendedor.total_venta}
                 venta={usuarioVendedor.ventas}
-                image={`https://apieasybill.online/${usuarioVendedor.ruta_imagen_usuario}`}
+                image={`https://165.22.189.59/${usuarioVendedor.ruta_imagen_usuario}`}
                 percentage={{ color: "success", amount: "", label: "VENDEDOR DEL MES" }}
               />
             </MDBox>

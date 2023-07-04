@@ -48,7 +48,7 @@ function Menu() {
   const handleClose = () => setOpen(false);
 
   const fetchUsers = () => {
-    fetch("https://apieasybill.online/api/productos", {
+    fetch("https://165.22.189.59/api/productos", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -84,7 +84,7 @@ function Menu() {
     }
 
     axios
-      .post("https://apieasybill.online/api/productos", formData, {
+      .post("https://165.22.189.59/api/productos", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
@@ -118,7 +118,7 @@ function Menu() {
     }
 
     axios
-      .post(`https://apieasybill.online/api/editproducto/${editingPlato.id}`, formData, {
+      .post(`https://165.22.189.59/api/editproducto/${editingPlato.id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
@@ -137,7 +137,7 @@ function Menu() {
   };
 
   useEffect(() => {
-    fetch("https://apieasybill.online/api/productos", {
+    fetch("https://165.22.189.59/api/productos", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -151,7 +151,7 @@ function Menu() {
             align: "left",
             /* eslint-disable react/prop-types */
             Cell: ({ row }) => {
-              const url = `https://apieasybill.online/${row.original.ruta_imagen_producto}`;
+              const url = `https://165.22.189.59/${row.original.ruta_imagen_producto}`;
               console.log(url); // <-- Aquí estamos logueando la URL
               return (
                 <img
@@ -209,7 +209,7 @@ function Menu() {
 
         const handleDelete = (row) => {
           axios
-            .delete(`https://apieasybill.online/api/productos/${row.original.id}`, {
+            .delete(`https://165.22.189.59/api/productos/${row.original.id}`, {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
