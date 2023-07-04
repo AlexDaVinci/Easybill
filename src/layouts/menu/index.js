@@ -48,7 +48,7 @@ function Menu() {
   const handleClose = () => setOpen(false);
 
   const fetchUsers = () => {
-    fetch("https://165.22.189.59/api/productos", {
+    fetch("http://192.168.137.136/api/productos", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -84,7 +84,7 @@ function Menu() {
     }
 
     axios
-      .post("https://165.22.189.59/api/productos", formData, {
+      .post("http://192.168.137.136/api/productos", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
@@ -118,7 +118,7 @@ function Menu() {
     }
 
     axios
-      .post(`https://165.22.189.59/api/editproducto/${editingPlato.id}`, formData, {
+      .post(`http://192.168.137.136/api/editproducto/${editingPlato.id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
@@ -137,7 +137,7 @@ function Menu() {
   };
 
   useEffect(() => {
-    fetch("https://165.22.189.59/api/productos", {
+    fetch("http://192.168.137.136/api/productos", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -151,7 +151,7 @@ function Menu() {
             align: "left",
             /* eslint-disable react/prop-types */
             Cell: ({ row }) => {
-              const url = `https://165.22.189.59/${row.original.ruta_imagen_producto}`;
+              const url = `http://192.168.137.136/${row.original.ruta_imagen_producto}`;
               console.log(url); // <-- Aquí estamos logueando la URL
               return (
                 <img
@@ -209,7 +209,7 @@ function Menu() {
 
         const handleDelete = (row) => {
           axios
-            .delete(`https://165.22.189.59/api/productos/${row.original.id}`, {
+            .delete(`http://192.168.137.136/api/productos/${row.original.id}`, {
               headers: {
                 Authorization: `Bearer ${token}`,
               },

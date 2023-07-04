@@ -58,7 +58,7 @@ function Rventas() {
 
   useEffect(() => {
     setModalOpen(true);
-    fetch("https://165.22.189.59/api/productos", {
+    fetch("http://192.168.137.136/api/productos", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -157,7 +157,7 @@ function Rventas() {
     console.log(venta.nombre_cliente);
     console.log(token);
     axios
-      .post("https://165.22.189.59/api/venta", venta, {
+      .post("http://192.168.137.136/api/venta", venta, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -166,7 +166,7 @@ function Rventas() {
         const idVenta = response.data.venta.id;
         console.log("ID de la venta:", idVenta);
 
-        // Recorre el array carrito y envía los datos a la ruta "https://165.22.189.59/api/asigna"
+        // Recorre el array carrito y envía los datos a la ruta "http://192.168.137.136/api/asigna"
         carrito.forEach((producto) => {
           const asignacion = {
             id_producto: producto.id,
@@ -180,7 +180,7 @@ function Rventas() {
           console.log(asignacion.total_por_producto);
           console.log(token);
           axios
-            .post("https://165.22.189.59/api/asigna", asignacion, {
+            .post("http://192.168.137.136/api/asigna", asignacion, {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
@@ -402,7 +402,7 @@ function Rventas() {
                 {productos.map((producto) => (
                   <Grid item xs={12} md={6} xl={3} key={producto.id}>
                     <DefaultInfoCard
-                      image={`https://165.22.189.59/${producto.ruta_imagen_producto}`}
+                      image={`http://192.168.137.136/${producto.ruta_imagen_producto}`}
                       title={producto.nombre_producto}
                       value={`$${producto.precio}`}
                       onClick={() => agregarAlCarrito(producto)}

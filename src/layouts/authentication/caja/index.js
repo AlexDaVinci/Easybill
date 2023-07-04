@@ -35,7 +35,7 @@ function Caja() {
 
     axios
       .post(
-        "https://165.22.189.59/api/closeCaja",
+        "http://192.168.137.136/api/closeCaja",
         {
           user_id: auth.userData.userData.id,
         },

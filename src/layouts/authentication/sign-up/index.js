@@ -32,14 +32,14 @@ function Cover() {
     event.preventDefault();
 
     axios
-      .post("https://165.22.189.59/api/login", {
+      .post("http://192.168.137.136/api/login", {
         email: email,
         password: password,
       })
       .then((response) => {
         console.log("Successful response:", response.data);
         axios
-          .get("https://165.22.189.59/api/user-profile", {
+          .get("http://192.168.137.136/api/user-profile", {
             headers: { Authorization: `Bearer ${response.data.token}` },
           })
           .then((userResponse) => {
@@ -48,7 +48,7 @@ function Cover() {
               navigate("/dashboard");
             } else {
               axios
-                .get("https://165.22.189.59/api/validateCaja", {
+                .get("http://192.168.137.136/api/validateCaja", {
                   headers: { Authorization: `Bearer ${response.data.token}` },
                 })
                 .then((responseto) => {
@@ -68,7 +68,7 @@ function Cover() {
                     }).then((value) => {
                       axios
                         .post(
-                          "https://165.22.189.59/api/openCaja",
+                          "http://192.168.137.136/api/openCaja",
                           {
                             user_id: userResponse.data.userData.id,
                             monto: value,

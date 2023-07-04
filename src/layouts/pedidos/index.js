@@ -61,17 +61,17 @@ function Pedidos() {
 
   const fetchPedidosDia = () => {
     setSelected("Dia");
-    fetchPedidos("https://165.22.189.59/api/PedidosDia");
+    fetchPedidos("http://192.168.137.136/api/PedidosDia");
   };
 
   const fetchPedidosSemana = () => {
     setSelected("Semana");
-    fetchPedidos("https://165.22.189.59/api/PedidosSemana");
+    fetchPedidos("http://192.168.137.136/api/PedidosSemana");
   };
 
   const fetchPedidosMes = () => {
     setSelected("Mes");
-    fetchPedidos("https://165.22.189.59/api/PedidosMes");
+    fetchPedidos("http://192.168.137.136/api/PedidosMes");
   };
 
   const { columns, rows } = data;
